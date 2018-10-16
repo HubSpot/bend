@@ -16,6 +16,8 @@
   ],
   "scripts": {
     "build": "lerna run build",
-    "build-watch": "lerna run build --parallel -- -- --watch"
+    "build-watch": "lerna run build --parallel -- -- --watch",
+    "lint": "eslint .",
+    "prettier": "prettier '**/*.js' -l"
   }
 }
