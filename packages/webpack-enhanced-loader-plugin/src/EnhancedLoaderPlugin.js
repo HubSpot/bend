@@ -1,7 +1,5 @@
-const LoaderDependency = require('webpack/lib/dependencies/LoaderDependency');
-const ContextDependency = require('webpack/lib/dependencies/ContextDependency');
-
-const SingletonPlugin = require('./SingletonPlugin');
+import LoaderDependency from 'webpack/lib/dependencies/LoaderDependency';
+import ContextDependency from 'webpack/lib/dependencies/ContextDependency';
 
 class EnhancedLoaderContextDependency extends ContextDependency {}
 EnhancedLoaderContextDependency.prototype.type = 'enhanced-loader-context';
@@ -9,7 +7,7 @@ EnhancedLoaderContextDependency.prototype.type = 'enhanced-loader-context';
 /**
  * Like the webpack LoaderPlugin, with promises and context support.
  */
-module.exports = class EnhancedLoaderPlugin extends SingletonPlugin {
+module.exports = class EnhancedLoaderPlugin {
   apply(compiler) {
     compiler.plugin(
       'compilation',

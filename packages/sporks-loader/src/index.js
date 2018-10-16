@@ -1,8 +1,8 @@
 /* @flow */
 
 import type { ParseResult } from '@hs/sporks';
-const path = require('path');
-const Sources = require('webpack-sources');
+import path from 'path';
+import Sources from 'webpack-sources';
 
 const internalLoaderPath = require.resolve('./internal-loader');
 const internalLoader = require(internalLoaderPath);
