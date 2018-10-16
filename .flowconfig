@@ -1,0 +1,14 @@
+[ignore]
+
+[include]
+
+[libs]
+
+[options]
+suppress_comment= \\(.\\|\n\\)*\\$FlowIssue
+suppress_comment= \\(.\\|\n\\)*\\$FlowFixMe
+suppress_comment= \\(.\\|\n\\)*\\$FlowTestIgnore
+suppress_type=$FlowTODO
+suppress_type=$FlowTestIgnore
+module.name_mapper='^\(@hs/[^/]*\)/lib/\(.+\)$' -> '\1/src/\2'
+module.name_mapper='^\(@hs/[^/]*\)$' -> '\1/src'

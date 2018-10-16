@@ -1,0 +1,11 @@
+{
+  "name": "@hs/sporks",
+  "version": "9.0.0",
+  "license": "MIT",
+  "dependencies": {
+    "shellwords": "0.1.1"
+  },
+  "scripts": {
+    "build": "../../node_modules/.bin/babel src -d lib --root-mode upward"
+  }
+}
