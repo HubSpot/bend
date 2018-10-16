@@ -8,5 +8,6 @@
     "publish": {
       "exact": true
     }
-  }
+  },
+  "npmClient": "yarn"
 }

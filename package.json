@@ -5,13 +5,15 @@
     "@babel/core": "^7.1.2",
     "@babel/plugin-transform-flow-strip-types": "^7.0.0",
     "@babel/plugin-transform-modules-commonjs": "^7.1.0",
+    "flow-bin": "^0.83.0",
     "lerna": "^3.4.3",
     "prettier": "^1.14.3"
   },
   "workspaces": [
     "packages/*"
   ],
-  "dependencies": {
-    "flow-bin": "^0.83.0"
+  "scripts": {
+    "build": "lerna run build",
+    "build-watch": "lerna run build --parallel -- -- --watch"
   }
 }
