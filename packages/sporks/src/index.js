@@ -18,7 +18,7 @@ export type ParseResult = {
 // https://github.com/timmfin/sprockets-directive-loader/blob/3530b38ce7157989c65212f582eacfc04c803046/index.js#L11-L12
 
 function extractHeader(source: string): string {
-  const headerPattern = /^(?:\s*((?:\/[*](?:\s*|.+?)*?[*]\/)|(?:\#\#\#\n(?:[\s\S]*)\n\#\#\#)|(?:\/\/.*\n?)+|(?:\#.*\n?)+)*)*/m;
+  const headerPattern = /^(?:\s*((?:\/[*](?:\s*|.+?)*?[*]\/)|(?:###\n(?:[\s\S]*)\n###)|(?:\/\/.*\n?)+|(?:#.*\n?)+)*)*/m;
 
   const match = headerPattern.exec(source);
   // Must be at the very beginning of the file

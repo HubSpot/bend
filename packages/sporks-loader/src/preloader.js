@@ -6,7 +6,7 @@ module.exports = function(content) {
   }
   this.cacheable();
 
-  const { source, directives } = sporks(content);
+  const { source, directives } = parse(content);
 
   this._module.meta = Object.assign({}, this._module.meta, {
     source,

@@ -5,6 +5,8 @@
     "@babel/core": "^7.1.2",
     "@babel/plugin-transform-flow-strip-types": "^7.0.0",
     "@babel/plugin-transform-modules-commonjs": "^7.1.0",
+    "babel-eslint": "^10.0.1",
+    "eslint": "4.17.0",
     "flow-bin": "^0.83.0",
     "lerna": "^3.4.3",
     "prettier": "^1.14.3"
