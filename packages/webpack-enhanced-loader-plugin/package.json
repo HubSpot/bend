@@ -1,6 +1,6 @@
 {
   "name": "@hs/webpack-enhanced-loader-plugin",
-  "version": "9.0.0-beta.0",
+  "version": "9.0.0-beta.1",
   "license": "MIT",
   "homepage": "https://github.com/HubSpot/asset-bender/tree/master/packages/webpack-enhanced-loader-plugin",
   "repository": "github:HubSpot/asset-bender",
