@@ -1,11 +1,12 @@
 {
-  "name": "@hs/sporks",
+  "name": "@hs/webpack-enhanced-loader-plugin",
   "version": "9.0.0",
   "license": "MIT",
-  "homepage": "https://github.com/HubSpot/asset-bender/tree/master/packages/sporks",
+  "homepage": "https://github.com/HubSpot/asset-bender/tree/master/packages/webpack-enhanced-loader-plugin",
   "repository": "github:HubSpot/asset-bender",
-  "dependencies": {
-    "shellwords": "0.1.1"
+  "main": "lib/EnhancedLoaderPlugin",
+  "peerDependencies": {
+    "webpack": "3.x"
   },
   "scripts": {
     "build": "../../node_modules/.bin/babel src -d lib --root-mode upward",
