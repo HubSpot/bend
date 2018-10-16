@@ -1,0 +1,6 @@
+{
+  "devDependencies": {
+    "lerna": "^3.4.3",
+    "prettier": "^1.14.3"
+  }
+}
