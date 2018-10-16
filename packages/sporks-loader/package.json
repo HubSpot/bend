@@ -9,7 +9,7 @@
     "webpack-sources": "^1.3.0"
   },
   "peerDependencies": {
-    "@hs/webpack-enhaced-loader-plugin": "9.0.0-beta.0"
+    "@hs/webpack-enhanced-loader-plugin": "9.0.0-beta.0"
   },
   "scripts": {
     "build": "../../node_modules/.bin/babel src -d lib --root-mode upward",
