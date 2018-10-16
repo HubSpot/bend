@@ -4,6 +4,9 @@
   "license": "MIT",
   "homepage": "https://github.com/HubSpot/asset-bender/tree/master/packages/webpack-enhanced-loader-plugin",
   "repository": "github:HubSpot/asset-bender",
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "lib/EnhancedLoaderPlugin",
   "peerDependencies": {
     "webpack": "3.x"

@@ -4,6 +4,10 @@
   "license": "MIT",
   "homepage": "https://github.com/HubSpot/asset-bender/tree/master/packages/sporks",
   "repository": "github:HubSpot/asset-bender",
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "lib",
   "dependencies": {
     "shellwords": "0.1.1"
   },
