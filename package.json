@@ -10,6 +10,7 @@
     "babel-jest": "^23.6.0",
     "eslint": "4.17.0",
     "flow-bin": "^0.83.0",
+    "flow-typed": "^2.5.1",
     "jest": "^23.6.0",
     "lerna": "^3.4.3",
     "prettier": "^1.14.3"
