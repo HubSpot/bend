@@ -1,5 +1,5 @@
 {
-  "version": "9.0.0-beta.1",
+  "version": "9.0.0-beta.2",
   "useWorkspaces": true,
   "packages": [
     "packages/*"
@@ -8,6 +8,5 @@
     "publish": {
       "exact": true
     }
-  },
-  "npmClient": "yarn"
+  }
 }

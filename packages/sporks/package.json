@@ -1,6 +1,6 @@
 {
   "name": "@hs/sporks",
-  "version": "9.0.0-beta.1",
+  "version": "9.0.0-beta.2",
   "license": "MIT",
   "homepage": "https://github.com/HubSpot/asset-bender/tree/master/packages/sporks",
   "repository": "github:HubSpot/asset-bender",
@@ -12,7 +12,7 @@
     "shellwords": "0.1.1"
   },
   "scripts": {
-    "build": "../../node_modules/.bin/babel src -d lib --root-mode upward",
+    "build": "babel src -d lib --root-mode upward",
     "prepare": "yarn build --delete-dir-on-start"
   }
 }

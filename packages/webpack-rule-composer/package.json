@@ -1,17 +1,15 @@
 {
-  "name": "@hs/webpack-enhanced-loader-plugin",
+  "name": "@hs/webpack-rule-composer",
   "version": "9.0.0-beta.2",
   "license": "MIT",
-  "homepage": "https://github.com/HubSpot/asset-bender/tree/master/packages/webpack-enhanced-loader-plugin",
+  "homepage": "https://github.com/HubSpot/asset-bender/tree/master/packages/webpack-rule-composer",
   "repository": "github:HubSpot/asset-bender",
   "publishConfig": {
     "access": "public"
   },
-  "main": "lib/EnhancedLoaderPlugin",
-  "peerDependencies": {
-    "webpack": "3.x"
-  },
+  "main": "lib",
   "scripts": {
+    "test": "jest",
     "build": "babel src -d lib --root-mode upward",
     "prepare": "yarn build --delete-dir-on-start"
   }
