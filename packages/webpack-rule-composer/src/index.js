@@ -8,7 +8,7 @@ export type AbstractRule = RuleRef | RuleFn;
 export type Rule = AbstractRule | Array<AbstractRule | ConcreteRule>;
 export type RuleResolver = (ruleName: string) => Rule;
 
-module.exports = function getRuleComposer(
+export default function getRuleComposer(
   ruleResolver: RuleResolver,
   ...args: Array<any>
 ) {
