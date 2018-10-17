@@ -1,3 +1,5 @@
+/* @flow */
+
 import { parse } from '../src';
 
 describe('parse', () => {
