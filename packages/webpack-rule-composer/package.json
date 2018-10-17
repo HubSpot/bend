@@ -1,0 +1,16 @@
+{
+  "name": "webpack-rule-composer",
+  "version": "9.0.0-beta.1",
+  "license": "MIT",
+  "homepage": "https://github.com/HubSpot/asset-bender/tree/master/packages/webpack-rule-composer",
+  "repository": "github:HubSpot/asset-bender",
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "lib",
+  "scripts": {
+    "test": "jest",
+    "build": "babel src -d lib --root-mode upward",
+    "prepare": "yarn build --delete-dir-on-start"
+  }
+}
