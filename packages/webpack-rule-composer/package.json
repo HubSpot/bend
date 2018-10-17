@@ -1,5 +1,5 @@
 {
-  "name": "webpack-rule-composer",
+  "name": "@hs/webpack-rule-composer",
   "version": "9.0.0-beta.1",
   "license": "MIT",
   "homepage": "https://github.com/HubSpot/asset-bender/tree/master/packages/webpack-rule-composer",
