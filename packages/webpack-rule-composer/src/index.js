@@ -42,4 +42,4 @@ export default function getRuleComposer(
   return (rule: AbstractRule): Array<ConcreteRule> => {
     return composeRulesRec(rule);
   };
-};
+}
