@@ -12,7 +12,7 @@
     "shellwords": "0.1.1"
   },
   "scripts": {
-    "build": "../../node_modules/.bin/babel src -d lib --root-mode upward",
+    "build": "babel src -d lib --root-mode upward",
     "prepare": "yarn build --delete-dir-on-start"
   }
 }
