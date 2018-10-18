@@ -1,7 +1,7 @@
 /* @flow */
 
 export type RuleRef = string;
-export type RuleFn = (...args: Array<any>) => Rule;
+export type RuleFn = (webpackOptions: {}, argv: {}, context: {}) => Rule;
 export type ConcreteRule = {};
 
 export type AbstractRule = RuleRef | RuleFn;
@@ -10,20 +10,22 @@ export type RuleResolver = (ruleName: string) => Rule;
 
 export default function getRuleComposer(
   ruleResolver: RuleResolver,
-  ...args: Array<any>
+  webpackOptions: {},
+  argv: {},
+  context: {}
 ) {
   function composeRulesRec(rules: Rule): Array<ConcreteRule> {
     if (typeof rules === 'string') {
       return composeRulesRec(ruleResolver(rules));
     } else if (typeof rules === 'function') {
-      return composeRulesRec(rules(...args));
+      return composeRulesRec(rules(webpackOptions, argv, context));
     } else if (Array.isArray(rules)) {
       return [].concat(
         ...rules.map(rule => {
           if (typeof rule === 'string') {
             return composeRulesRec(rule);
           } else if (typeof rule === 'function') {
-            return composeRulesRec(rule(...args));
+            return composeRulesRec(rule(webpackOptions, argv, context));
           } else {
             return [rule];
           }
