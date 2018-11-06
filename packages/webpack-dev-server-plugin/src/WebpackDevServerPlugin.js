@@ -1,7 +1,7 @@
 /* @flow */
 
 export default class WebpackDevServerPlugin {
-  before: (app: any, server: any) => void;
+  before: (app: any, server: any, compiler: any) => void;
 
   apply(compiler: any) {
     if (!compiler.options.devServer) {
@@ -17,7 +17,7 @@ export default class WebpackDevServerPlugin {
         originalBefore(app, server);
       }
 
-      this.before(app, server);
+      this.before(app, server, compiler);
     };
   }
 }
