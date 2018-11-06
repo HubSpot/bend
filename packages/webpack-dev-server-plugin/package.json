@@ -1,0 +1,15 @@
+{
+  "name": "@hs/webpack-dev-server-plugin",
+  "version": "9.0.0-beta.2",
+  "license": "MIT",
+  "homepage": "https://github.com/HubSpot/asset-bender/tree/master/packages/webpack-dev-server-plugin",
+  "repository": "github:HubSpot/asset-bender",
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "lib/WebpackDevServerPlugin",
+  "scripts": {
+    "build": "babel src -d lib --root-mode upward",
+    "prepare": "yarn build --delete-dir-on-start"
+  }
+}
