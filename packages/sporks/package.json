@@ -1,6 +1,6 @@
 {
   "name": "@hs/sporks",
-  "version": "9.0.0-beta.2",
+  "version": "9.0.0",
   "license": "MIT",
   "homepage": "https://github.com/HubSpot/asset-bender/tree/master/packages/sporks",
   "repository": "github:HubSpot/asset-bender",

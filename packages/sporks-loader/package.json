@@ -1,6 +1,6 @@
 {
   "name": "@hs/sporks-loader",
-  "version": "9.0.0-beta.2",
+  "version": "9.0.0",
   "license": "MIT",
   "homepage": "https://github.com/HubSpot/asset-bender/tree/master/packages/sporks-loader",
   "repository": "github:HubSpot/asset-bender",
@@ -9,7 +9,7 @@
   },
   "main": "lib",
   "dependencies": {
-    "@hs/sporks": "9.0.0-beta.2",
+    "@hs/sporks": "9.0.0",
     "webpack-sources": "^1.3.0"
   },
   "peerDependencies": {
