@@ -4,9 +4,6 @@ import type { ParseResult } from '@hs/sporks';
 import path from 'path';
 import Sources from 'webpack-sources';
 
-const internalLoaderPath = require.resolve('./internal-loader');
-const internalLoader = require(internalLoaderPath);
-
 type WebpackModule = {
   meta: ParseResult & { sporksStacks?: Array<any> },
   dependencies: Array<{ request: string }>,
@@ -19,8 +16,6 @@ type WebpackModule = {
 type Handler = (...args: Array<string>) => Promise<Array<WebpackModule>>;
 
 type Handlers = { [directive: string]: Handler };
-
-const loaders = internalLoaderPath;
 
 module.exports = function(source: string, sourceMap: any) {
   if (this._module.meta.source == null || !this._module.meta.directives) {
@@ -64,7 +59,7 @@ module.exports = function(source: string, sourceMap: any) {
     }
 
     const enhancedLoadModule = (request: string): Promise<WebpackModule> => {
-      return this.enhancedLoadModule(request, fromModule);
+      return this.enhancedLoadModule(`${request}?sporks-internal`, fromModule);
     };
 
     const enhancedLoadContext = async (
@@ -92,7 +87,7 @@ module.exports = function(source: string, sourceMap: any) {
           // exclude the root module
           // TODO why exclude the this.resourcePath and not mod.resourcePath?
           .filter(depPath => depPath != this.resourcePath)
-          .map(depPath => enhancedLoadModule(`${loaders}!${depPath}`))
+          .map(depPath => enhancedLoadModule(depPath))
       );
     };
 
@@ -114,7 +109,7 @@ module.exports = function(source: string, sourceMap: any) {
                 throw new Error(`${extname} can't be required from a ${type}`);
               }
             }
-            return Promise.all([enhancedLoadModule(`${loaders}!${p}`)]);
+            return Promise.all([enhancedLoadModule(p)]);
           },
 
           require_env: (...args) => {
@@ -248,5 +243,3 @@ module.exports = function(source: string, sourceMap: any) {
       })
     );
 };
-
-module.exports.pitch = internalLoader.pitch;
