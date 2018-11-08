@@ -118,7 +118,7 @@ module.exports = function(source: string, sourceMap: any) {
                 'The require_env directive should take no parameters'
               );
             }
-            const { name, ext } = path.parse(mod.resource);
+            const { name, ext } = path.parse(this.resourcePath);
             if (ext !== '.js') {
               throw new Error('require_env is only allowed in .js files');
             }
