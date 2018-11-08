@@ -19,7 +19,6 @@ type Handlers = { [directive: string]: Handler };
 
 module.exports = function(source: string, sourceMap: any) {
   if (this._module.meta.source == null || !this._module.meta.directives) {
-    // unlikely. something must have gone wrong in pitch
     throw new Error('missing sporks/preloader');
   }
 
