@@ -17,6 +17,14 @@ type Handler = (...args: Array<string>) => Promise<Array<WebpackModule>>;
 
 type Handlers = { [directive: string]: Handler };
 
+function parseResourcePath(resource) {
+  const i = resource.indexOf('?');
+  if (i < 0) {
+    return resource;
+  }
+  return resource.substr(0, i);
+}
+
 module.exports = function(source: string, sourceMap: any) {
   if (this._module.meta.source == null || !this._module.meta.directives) {
     throw new Error('missing sporks/preloader');
@@ -117,7 +125,7 @@ module.exports = function(source: string, sourceMap: any) {
                 'The require_env directive should take no parameters'
               );
             }
-            const { name, ext } = path.parse(this.resourcePath);
+            const { name, ext } = path.parse(parseResourcePath(mod.resource));
             if (ext !== '.js') {
               throw new Error('require_env is only allowed in .js files');
             }
