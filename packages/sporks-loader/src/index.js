@@ -25,6 +25,15 @@ function parseResourcePath(resource) {
   return resource.substr(0, i);
 }
 
+function withResourceQuery(request: string, query: string) {
+  const parts = request.split('!');
+  const filepath = parts[parts.length - 1];
+  if (filepath.indexOf('?') > -1) {
+    return `${request}&${query}`;
+  }
+  return `${request}?${query}`;
+}
+
 module.exports = function(source: string, sourceMap: any) {
   if (this._module.meta.source == null || !this._module.meta.directives) {
     throw new Error('missing sporks/preloader');
@@ -66,7 +75,8 @@ module.exports = function(source: string, sourceMap: any) {
     }
 
     const enhancedLoadModule = (request: string): Promise<WebpackModule> => {
-      return this.enhancedLoadModule(`${request}?sporks-internal`, fromModule);
+      const sporksInternalRequest = withResourceQuery(request, 'sporks-internal');
+      return this.enhancedLoadModule(sporksInternalRequest, fromModule);
     };
 
     const enhancedLoadContext = async (
