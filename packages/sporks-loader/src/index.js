@@ -75,7 +75,10 @@ module.exports = function(source: string, sourceMap: any) {
     }
 
     const enhancedLoadModule = (request: string): Promise<WebpackModule> => {
-      const sporksInternalRequest = withResourceQuery(request, 'sporks-internal');
+      const sporksInternalRequest = withResourceQuery(
+        request,
+        'sporks-internal'
+      );
       return this.enhancedLoadModule(sporksInternalRequest, fromModule);
     };
 
