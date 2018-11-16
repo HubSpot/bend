@@ -4,9 +4,6 @@ import type { ParseResult } from '@hs/sporks';
 import path from 'path';
 import Sources from 'webpack-sources';
 
-const internalLoaderPath = require.resolve('./internal-loader');
-const internalLoader = require(internalLoaderPath);
-
 type WebpackModule = {
   meta: ParseResult & { sporksStacks?: Array<any> },
   dependencies: Array<{ request: string }>,
@@ -20,11 +17,25 @@ type Handler = (...args: Array<string>) => Promise<Array<WebpackModule>>;
 
 type Handlers = { [directive: string]: Handler };
 
-const loaders = internalLoaderPath;
+function parseResourcePath(resource) {
+  const i = resource.indexOf('?');
+  if (i < 0) {
+    return resource;
+  }
+  return resource.substr(0, i);
+}
+
+function withResourceQuery(request: string, query: string) {
+  const parts = request.split('!');
+  const filepath = parts[parts.length - 1];
+  if (filepath.indexOf('?') > -1) {
+    return `${request}&${query}`;
+  }
+  return `${request}?${query}`;
+}
 
 module.exports = function(source: string, sourceMap: any) {
   if (this._module.meta.source == null || !this._module.meta.directives) {
-    // unlikely. something must have gone wrong in pitch
     throw new Error('missing sporks/preloader');
   }
 
@@ -64,7 +75,11 @@ module.exports = function(source: string, sourceMap: any) {
     }
 
     const enhancedLoadModule = (request: string): Promise<WebpackModule> => {
-      return this.enhancedLoadModule(request, fromModule);
+      const sporksInternalRequest = withResourceQuery(
+        request,
+        'sporks-internal'
+      );
+      return this.enhancedLoadModule(sporksInternalRequest, fromModule);
     };
 
     const enhancedLoadContext = async (
@@ -92,7 +107,7 @@ module.exports = function(source: string, sourceMap: any) {
           // exclude the root module
           // TODO why exclude the this.resourcePath and not mod.resourcePath?
           .filter(depPath => depPath != this.resourcePath)
-          .map(depPath => enhancedLoadModule(`${loaders}!${depPath}`))
+          .map(depPath => enhancedLoadModule(depPath))
       );
     };
 
@@ -114,7 +129,7 @@ module.exports = function(source: string, sourceMap: any) {
                 throw new Error(`${extname} can't be required from a ${type}`);
               }
             }
-            return Promise.all([enhancedLoadModule(`${loaders}!${p}`)]);
+            return Promise.all([enhancedLoadModule(p)]);
           },
 
           require_env: (...args) => {
@@ -123,7 +138,7 @@ module.exports = function(source: string, sourceMap: any) {
                 'The require_env directive should take no parameters'
               );
             }
-            const { name, ext } = path.parse(mod.resource);
+            const { name, ext } = path.parse(parseResourcePath(mod.resource));
             if (ext !== '.js') {
               throw new Error('require_env is only allowed in .js files');
             }
@@ -248,5 +263,3 @@ module.exports = function(source: string, sourceMap: any) {
       })
     );
 };
-
-module.exports.pitch = internalLoader.pitch;
