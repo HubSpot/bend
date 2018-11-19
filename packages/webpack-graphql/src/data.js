@@ -108,6 +108,16 @@ const coreResolvers = {
       return module._source;
     },
 
+    issuerStack(module) {
+      let current = module;
+      const result = [];
+      while (current.issuer) {
+        current = current.issuer;
+        result.push(current);
+      }
+      return result;
+    },
+
     errorCount(module) {
       return module.errors.length;
     },

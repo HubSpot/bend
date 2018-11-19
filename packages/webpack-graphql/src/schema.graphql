@@ -22,6 +22,8 @@ type Module {
   id: Int
   dependencies: [Dependency!]!
   reasons: [ModuleReason!]!
+  issuer: Module
+  issuerStack: [Module!]!
   source: Source
   loaders: [Loader!]
 
