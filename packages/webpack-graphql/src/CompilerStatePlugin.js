@@ -12,17 +12,9 @@ export default class CompilerStatePlugin {
   apply(compiler) {
     this.valid = false;
 
-    compiler.plugin('compilation', compilation => {
-      this.compilation = compilation;
-    });
-
-    compiler.plugin('done', () => {
+    compiler.plugin('done', ({ compilation }) => {
       this.valid = true;
-      process.nextTick(() => {
-        if (this.valid) {
-          this._resolve(this.compilation);
-        }
-      });
+      this._resolve(compilation);
     });
 
     // on compiling
@@ -39,14 +31,6 @@ export default class CompilerStatePlugin {
     compiler.plugin('invalid', invalidPlugin);
     compiler.plugin('watch-run', invalidAsyncPlugin);
     compiler.plugin('run', invalidAsyncPlugin);
-  }
-
-  onValid(listener) {
-    if (this.valid) {
-      listener(this.compilation);
-    } else {
-      this.promise.then(listener);
-    }
   }
 
   then(...args) {
