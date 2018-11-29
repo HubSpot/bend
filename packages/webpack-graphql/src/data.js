@@ -136,13 +136,13 @@ const coreResolvers = {
 
     chunks(module) {
       return module.getChunks();
-    }
+    },
   },
 
   Chunk: {
     modules(chunk) {
       return chunk.getModules();
-    }
+    },
   },
 
   Raw: {
