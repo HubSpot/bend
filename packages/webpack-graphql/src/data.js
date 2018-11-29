@@ -133,6 +133,16 @@ const coreResolvers = {
     warnings(module) {
       return module.warnings.map(unwrapError);
     },
+
+    chunks(module) {
+      return module.getChunks();
+    }
+  },
+
+  Chunk: {
+    modules(chunk) {
+      return chunk.getModules();
+    }
   },
 
   Raw: {
