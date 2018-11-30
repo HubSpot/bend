@@ -31,6 +31,7 @@ type Module {
   errorCount: Int!
   warnings: [Error!]!
   warningCount: Int!
+  chunks: [Chunk!]!
 }
 
 type SourceLocationRange {
@@ -75,6 +76,7 @@ type Chunk {
   name: String
   entrypoints: [Module!]!
   origins: [ChunkOrigin!]!
+  modules: [Module!]!
 }
 
 type Entrypoint {
