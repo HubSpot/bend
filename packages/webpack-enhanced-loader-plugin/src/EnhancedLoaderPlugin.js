@@ -1,6 +1,8 @@
 import LoaderDependency from 'webpack/lib/dependencies/LoaderDependency';
 import ContextDependency from 'webpack/lib/dependencies/ContextDependency';
 
+import { addModuleDependencies } from './webpack-compat/compilation';
+
 class EnhancedLoaderContextDependency extends ContextDependency {}
 EnhancedLoaderContextDependency.prototype.type = 'enhanced-loader-context';
 
@@ -50,9 +52,10 @@ module.exports = class EnhancedLoaderPlugin {
 
             function doLoad(loaderContext, dep, module) {
               return new Promise((resolve, reject) => {
-                compilation.addModuleDependencies(
+                addModuleDependencies(
+                  compilation,
                   module,
-                  [[dep]],
+                  [dep],
                   true,
                   'blm',
                   false,
