@@ -3,6 +3,7 @@
 import type { ParseResult } from '@hs/sporks';
 import path from 'path';
 import Sources from 'webpack-sources';
+import { getOptions } from 'loader-utils';
 
 type WebpackModule = {
   meta: ParseResult & { sporksStacks?: Array<any> },
@@ -43,7 +44,9 @@ module.exports = function(source: string, sourceMap: any) {
   this.cacheable();
 
   // FIXME document this option
-  const { types = {}, replaceExtensions = {} } = this.options.resolve;
+  const options = getOptions(this) || {};
+  const resolveOptions = options.resolve || {};
+  const { types = {}, replaceExtensions = {} } = resolveOptions;
 
   const rootModule: WebpackModule = this._module;
 
@@ -142,7 +145,7 @@ module.exports = function(source: string, sourceMap: any) {
             if (ext !== '.js') {
               throw new Error('require_env is only allowed in .js files');
             }
-            const env = this.options.sporksEnv || 'development';
+            const env = options.sporksEnv || 'development';
             return handlers.require(`./${name}.${env}.js`);
           },
 
