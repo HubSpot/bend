@@ -44,7 +44,6 @@ module.exports = class EnhancedLoaderPlugin {
               module = loaderModule
             ) {
               const dep = EnhancedLoaderContextDependency.create(
-                compilation,
                 request,
                 recursive,
                 regExp,
