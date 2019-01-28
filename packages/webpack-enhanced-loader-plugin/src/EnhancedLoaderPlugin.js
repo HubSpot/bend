@@ -2,9 +2,11 @@ import LoaderDependency from 'webpack/lib/dependencies/LoaderDependency';
 import ContextDependency from 'webpack/lib/dependencies/ContextDependency';
 
 import { addModuleDependencies } from './webpack-compat/compilation';
+import { create } from './webpack-compat/context-dependency';
 
 class EnhancedLoaderContextDependency extends ContextDependency {}
 EnhancedLoaderContextDependency.prototype.type = 'enhanced-loader-context';
+EnhancedLoaderContextDependency.create = create;
 
 /**
  * Like the webpack LoaderPlugin, with promises and context support.
@@ -41,10 +43,11 @@ module.exports = class EnhancedLoaderPlugin {
               regExp,
               module = loaderModule
             ) {
-              const dep = new EnhancedLoaderContextDependency(
+              const dep = EnhancedLoaderContextDependency.create(
                 request,
                 recursive,
-                regExp
+                regExp,
+                'sync'
               );
               dep.loc = request;
               return doLoad(this, dep, module);
