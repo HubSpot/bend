@@ -1,7 +1,7 @@
 import ContextDependency from 'webpack/lib/dependencies/ContextDependency';
 
 function isWebpack4() {
-  // this instancce method exists in webpack 3 but not 4
+  // this instance method exists in webpack 3 but not 4
   return ContextDependency.prototype.isEqualResource == null;
 }
 
