@@ -3,6 +3,7 @@ import ContextDependency from 'webpack/lib/dependencies/ContextDependency';
 
 import { addModuleDependencies } from './webpack-compat/compilation';
 import { create } from './webpack-compat/context-dependency';
+import { buildInfo } from './webpack-compat/normal-module';
 
 class EnhancedLoaderContextDependency extends ContextDependency {}
 EnhancedLoaderContextDependency.prototype.type = 'enhanced-loader-context';
@@ -79,13 +80,15 @@ module.exports = class EnhancedLoaderPlugin {
 
                       if (dep.module.error) return reject(dep.module.error);
 
-                      if (dep.module.fileDependencies) {
-                        dep.module.fileDependencies.forEach(dep => {
+                      const moduleBuildInfo = buildInfo(dep.module);
+
+                      if (moduleBuildInfo.fileDependencies) {
+                        moduleBuildInfo.fileDependencies.forEach(dep => {
                           loaderContext.addDependency(dep);
                         });
                       }
-                      if (dep.module.contextDependencies) {
-                        dep.module.contextDependencies.forEach(dep => {
+                      if (moduleBuildInfo.contextDependencies) {
+                        moduleBuildInfo.contextDependencies.forEach(dep => {
                           loaderContext.addContextDependency(dep);
                         });
                       }
