@@ -163,7 +163,10 @@ module.exports = function(source: string, sourceMap: any) {
                 `Cannot use require_lang without including the language wildcard ('*')`
               );
             }
-            const currentLang = path.basename(mod.resource, '.lyaml');
+            const currentLang = path.basename(
+              parseResourcePath(mod.resource),
+              '.lyaml'
+            );
             return handlers.require(p.replace('*', currentLang));
           },
         };
