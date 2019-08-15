@@ -53,7 +53,7 @@ type Dependency {
 
 # Source, including sourcemap
 type Source {
-  source: String!
+  source: String
   size(limit: Int): Int!
   map: Raw
 }
