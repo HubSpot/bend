@@ -167,6 +167,13 @@ const coreResolvers = {
       return dep.loc && dep.loc.start ? dep.loc : null;
     },
   },
+
+  Source: {
+    source(s) {
+      const value = s.source();
+      return Buffer.isBuffer(value) ? null : value;
+    },
+  },
 };
 
 export function buildContext(compiler) {
