@@ -23,7 +23,7 @@ jobs:
         echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
         sudo apt-get update
         sudo apt-get install yarn
-    - name: npm install, build, and test
+    - name: yarn install, build, and test
       run: |
         yarn
         yarn build
