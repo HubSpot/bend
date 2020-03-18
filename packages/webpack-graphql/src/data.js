@@ -31,7 +31,14 @@ function getModule(compilation, identifierHash) {
 
 // returning an error directly is treated as an error
 // https://github.com/graphql/graphql-js/issues/591
-function unwrapError({ name, message, details, stack, module }) {
+function unwrapError(e) {
+  // Webpack allows us to register either error objects or strings as errors.
+  if (typeof e === 'string') {
+    return {
+      message: e,
+    };
+  }
+  const { name, message, details, stack, module } = e;
   return { name, message, details, stack, module };
 }
 
