@@ -5,7 +5,7 @@ import shellwords from 'shellwords';
 export type Directive = {
   directive: string,
   args: Array<string>,
-  loc: { start: number },
+  loc: { line: number, start: number },
   source: string,
 };
 
@@ -36,7 +36,7 @@ export function parse(source: string): ParseResult {
   const bodySource = source.substr(headerSource.length);
 
   const directives = [];
-  const headerLines = headerSource.split('\n').map(line => {
+  const headerLines = headerSource.split('\n').map((line, index) => {
     const match = line.match(/^(\W*=)\s*(\w+)\s*(.*?)(\*\/)?$/);
     if (!match) {
       return line;
@@ -47,6 +47,7 @@ export function parse(source: string): ParseResult {
       directive,
       args,
       loc: {
+        line: index + 1,
         // $FlowIssue https://github.com/facebook/flow/issues/3554
         start: match.index,
       },
