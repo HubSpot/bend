@@ -19,7 +19,7 @@ type Module {
   buildTimestamp: Raw
   resource: String
   context: String
-  id: Int
+  id: String
   dependencies: [Dependency!]!
   reasons: [ModuleReason!]!
   issuer: Module
