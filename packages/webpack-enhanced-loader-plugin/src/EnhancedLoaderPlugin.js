@@ -56,6 +56,7 @@ module.exports = class EnhancedLoaderPlugin {
 
             function doLoad(loaderContext, dep, module) {
               return new Promise((resolve, reject) => {
+                compilation.semaphore.release();
                 addModuleDependencies(
                   compilation,
                   module,
@@ -64,36 +65,38 @@ module.exports = class EnhancedLoaderPlugin {
                   'blm',
                   false,
                   err => {
-                    if (err) {
-                      return reject(err);
-                    }
-
-                    if (!dep.module) {
-                      return reject(new Error('Cannot load the module'));
-                    }
-                    if (dep.module.building) {
-                      dep.module.building.push(next);
-                    } else next();
-
-                    function next(err) {
-                      if (err) return reject(err);
-
-                      if (dep.module.error) return reject(dep.module.error);
-
-                      const moduleBuildInfo = buildInfo(dep.module);
-
-                      if (moduleBuildInfo.fileDependencies) {
-                        moduleBuildInfo.fileDependencies.forEach(dep => {
-                          loaderContext.addDependency(dep);
-                        });
+                    compilation.semaphore.acquire(() => {
+                      if (err) {
+                        return reject(err);
                       }
-                      if (moduleBuildInfo.contextDependencies) {
-                        moduleBuildInfo.contextDependencies.forEach(dep => {
-                          loaderContext.addContextDependency(dep);
-                        });
+
+                      if (!dep.module) {
+                        return reject(new Error('Cannot load the module'));
                       }
-                      return resolve(dep.module);
-                    }
+                      if (dep.module.building) {
+                        dep.module.building.push(next);
+                      } else next();
+
+                      function next(err) {
+                        if (err) return reject(err);
+
+                        if (dep.module.error) return reject(dep.module.error);
+
+                        const moduleBuildInfo = buildInfo(dep.module);
+
+                        if (moduleBuildInfo.fileDependencies) {
+                          moduleBuildInfo.fileDependencies.forEach(dep => {
+                            loaderContext.addDependency(dep);
+                          });
+                        }
+                        if (moduleBuildInfo.contextDependencies) {
+                          moduleBuildInfo.contextDependencies.forEach(dep => {
+                            loaderContext.addContextDependency(dep);
+                          });
+                        }
+                        return resolve(dep.module);
+                      }
+                    });
                   }
                 );
               });
