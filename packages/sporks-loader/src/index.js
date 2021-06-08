@@ -87,12 +87,14 @@ module.exports = function(source: string, sourceMap: any) {
 
     const enhancedLoadContext = async (
       request: string,
-      recursive: boolean
+      recursive: boolean,
+      pattern?: string
     ): Promise<Array<WebpackModule>> => {
+      const patternRe = pattern ? new RegExp(pattern) : matchRe;
       const contextModule: WebpackModule = await this.enhancedLoadContext(
         request,
         recursive,
-        matchRe,
+        patternRe,
         fromModule
       );
 
@@ -149,12 +151,12 @@ module.exports = function(source: string, sourceMap: any) {
             return handlers.require(`./${name}.${env}.js`);
           },
 
-          require_tree: p => {
-            return enhancedLoadContext(p, true);
+          require_tree: (path, pattern) => {
+            return enhancedLoadContext(path, true, pattern);
           },
 
-          require_directory: p => {
-            return enhancedLoadContext(p, false);
+          require_directory: (path, pattern) => {
+            return enhancedLoadContext(path, false, pattern);
           },
 
           require_lang: p => {
