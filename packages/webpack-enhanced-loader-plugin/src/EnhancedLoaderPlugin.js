@@ -5,8 +5,11 @@ import { addModuleDependencies } from './webpack-compat/compilation';
 import { create } from './webpack-compat/context-dependency';
 import { buildInfo } from './webpack-compat/normal-module';
 
-class EnhancedLoaderContextDependency extends ContextDependency {}
-EnhancedLoaderContextDependency.prototype.type = 'enhanced-loader-context';
+class EnhancedLoaderContextDependency extends ContextDependency {
+  get type() {
+    return 'enhanced-loader-context';
+  }
+}
 EnhancedLoaderContextDependency.create = create;
 
 /**
