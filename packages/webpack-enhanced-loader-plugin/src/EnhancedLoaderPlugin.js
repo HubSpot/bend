@@ -14,8 +14,8 @@ EnhancedLoaderContextDependency.create = create;
  */
 module.exports = class EnhancedLoaderPlugin {
   apply(compiler) {
-    compiler.plugin(
-      'compilation',
+    compiler.hooks.compilation.tap(
+      'EnhancedLoaderPlugin',
       (compilation, { normalModuleFactory, contextModuleFactory }) => {
         compilation.dependencyFactories.set(
           LoaderDependency,
@@ -26,8 +26,8 @@ module.exports = class EnhancedLoaderPlugin {
           contextModuleFactory
         );
 
-        compilation.plugin(
-          'normal-module-loader',
+        compilation.hooks.normalModuleLoader.tap(
+          'EnhancedLoaderPlugin',
           (loaderContext, loaderModule) => {
             loaderContext.enhancedLoadModule = function(
               request,

@@ -186,11 +186,11 @@ const coreResolvers = {
 export function buildContext(compiler) {
   const compilerReady = new CompilerStatePlugin();
 
-  compiler.apply(compilerReady);
+  compilerReady.apply(compiler);
 
   const context = { compilerReady, compiler };
 
-  compiler.plugin('compilation', compilation => {
+  compiler.hooks.compilation.tap('webpack-graphql', compilation => {
     if (compilation.generation) {
       compilation.generation++;
     } else {
@@ -198,7 +198,7 @@ export function buildContext(compiler) {
     }
   });
 
-  compiler.plugin('watch-run', (watch, callback) => {
+  compiler.hooks.watchRun.tapAsync('webpack-graphql', (watch, callback) => {
     context.watch = watch;
     callback();
   });
