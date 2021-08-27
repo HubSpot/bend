@@ -144,6 +144,12 @@ const coreResolvers = {
     chunks(module) {
       return module.getChunks();
     },
+
+    reasons(module, _, context) {
+      return context.compilerReady.then(compilation => {
+        return Array.from(compilation.moduleGraph.getIncomingConnections(module))
+      });
+    }
   },
 
   Chunk: {
@@ -173,6 +179,12 @@ const coreResolvers = {
       // there are some weird locations, like strings
       return dep.loc && dep.loc.start ? dep.loc : null;
     },
+
+    module(dep, _, context) {
+      return context.compilerReady.then(compilation => {
+        return compilation.moduleGraph.getModule(dep)
+      });
+    }
   },
 
   Source: {
@@ -191,6 +203,7 @@ export function buildContext(compiler) {
   const context = { compilerReady, compiler };
 
   compiler.hooks.compilation.tap('webpack-graphql', compilation => {
+    context.compilation = compilation;
     if (compilation.generation) {
       compilation.generation++;
     } else {
