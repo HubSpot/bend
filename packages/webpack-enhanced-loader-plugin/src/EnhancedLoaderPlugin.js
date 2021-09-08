@@ -62,7 +62,6 @@ module.exports = class EnhancedLoaderPlugin {
 
             function doLoad(loaderContext, dep, module) {
               return new Promise((resolve, reject) => {
-                // TODO HQD from LoaderPlugin
                 compilation.buildQueue.increaseParallelism();
                 compilation.handleModuleCreation(
                   {
