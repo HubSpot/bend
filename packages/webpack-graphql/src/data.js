@@ -199,7 +199,7 @@ const coreResolvers = {
 
 export function buildContext(compiler) {
   const compilerReady = new CompilerStatePlugin();
-  // FIXME: This is a hack to get actual assets before they are replaced with SizeOnlySource instances
+  // This is a hack to get actual assets before they are replaced with SizeOnlySource instances
   const assetsByCompilation = new WeakMap();
 
   compilerReady.apply(compiler);
