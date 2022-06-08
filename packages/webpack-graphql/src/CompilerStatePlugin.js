@@ -17,10 +17,16 @@ export default class CompilerStatePlugin {
       this._resolve(compilation);
     });
 
-    [compiler.hooks.invalid, compiler.hooks.watchRun, compiler.hooks.run].forEach(hook => hook.tap('CompilerStatePlugin', () => {
-      this.valid = false;
-      this.resetPromise();
-    }));
+    [
+      compiler.hooks.invalid,
+      compiler.hooks.watchRun,
+      compiler.hooks.run,
+    ].forEach(hook =>
+      hook.tap('CompilerStatePlugin', () => {
+        this.valid = false;
+        this.resetPromise();
+      })
+    );
   }
 
   then(...args) {
