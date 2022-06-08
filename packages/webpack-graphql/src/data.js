@@ -61,15 +61,17 @@ const coreResolvers = {
       return { stats, json: stats.toJson(preset) };
     },
 
-    assets(compilation) {
+    assets(compilation, _, context) {
+      const assets = context.assetsByCompilation.get(compilation);
       return Object.keys(compilation.assets).map(name => ({
         name,
-        source: compilation.assets[name],
+        source: assets[name],
       }));
     },
 
-    asset(compilation, { name }) {
-      return { name, source: compilation.assets[name] };
+    asset(compilation, { name }, context) {
+      const assets = context.assetsByCompilation.get(compilation);
+      return { name, source: assets[name] };
     },
 
     module(compilation, { identifier, identifierHash }) {
@@ -144,6 +146,12 @@ const coreResolvers = {
     chunks(module) {
       return module.getChunks();
     },
+
+    reasons(module, _, context) {
+      return context.compilerReady.then(compilation => {
+        return Array.from(compilation.moduleGraph.getIncomingConnections(module))
+      });
+    }
   },
 
   Chunk: {
@@ -173,6 +181,12 @@ const coreResolvers = {
       // there are some weird locations, like strings
       return dep.loc && dep.loc.start ? dep.loc : null;
     },
+
+    module(dep, _, context) {
+      return context.compilerReady.then(compilation => {
+        return compilation.moduleGraph.getModule(dep)
+      });
+    }
   },
 
   Source: {
@@ -185,12 +199,15 @@ const coreResolvers = {
 
 export function buildContext(compiler) {
   const compilerReady = new CompilerStatePlugin();
+  // FIXME: This is a hack to get actual assets before they are replaced with SizeOnlySource instances
+  const assetsByCompilation = new WeakMap();
 
   compilerReady.apply(compiler);
 
-  const context = { compilerReady, compiler };
+  const context = { compilerReady, compiler, assetsByCompilation };
 
   compiler.hooks.compilation.tap('webpack-graphql', compilation => {
+    context.compilation = compilation;
     if (compilation.generation) {
       compilation.generation++;
     } else {
@@ -201,6 +218,13 @@ export function buildContext(compiler) {
   compiler.hooks.watchRun.tapAsync('webpack-graphql', (watch, callback) => {
     context.watch = watch;
     callback();
+  });
+
+  compiler.hooks.emit.tap('webpack-graphql', compilation => {
+    assetsByCompilation.set(compilation, {
+      ...compilation.assets
+    });
+
   });
 
   return context;
