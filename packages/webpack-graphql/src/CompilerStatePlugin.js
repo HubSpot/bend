@@ -12,25 +12,21 @@ export default class CompilerStatePlugin {
   apply(compiler) {
     this.valid = false;
 
-    compiler.plugin('done', ({ compilation }) => {
+    compiler.hooks.done.tap('CompilerStatePlugin', ({ compilation }) => {
       this.valid = true;
       this._resolve(compilation);
     });
 
-    // on compiling
-    const invalidPlugin = () => {
-      this.valid = false;
-      this.resetPromise();
-    };
-
-    function invalidAsyncPlugin(compiler, callback) {
-      invalidPlugin();
-      callback();
-    }
-
-    compiler.plugin('invalid', invalidPlugin);
-    compiler.plugin('watch-run', invalidAsyncPlugin);
-    compiler.plugin('run', invalidAsyncPlugin);
+    [
+      compiler.hooks.invalid,
+      compiler.hooks.watchRun,
+      compiler.hooks.run,
+    ].forEach(hook =>
+      hook.tap('CompilerStatePlugin', () => {
+        this.valid = false;
+        this.resetPromise();
+      })
+    );
   }
 
   then(...args) {
