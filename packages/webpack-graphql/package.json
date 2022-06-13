@@ -1,6 +1,6 @@
 {
   "name": "@hs/webpack-graphql",
-  "version": "9.0.13",
+  "version": "10.0.0",
   "license": "MIT",
   "homepage": "https://github.com/HubSpot/asset-bender/tree/master/packages/webpack-graphql",
   "repository": "github:HubSpot/asset-bender",
@@ -9,7 +9,7 @@
   },
   "main": "lib/WebpackGraphQLPlugin",
   "dependencies": {
-    "@hs/webpack-dev-server-plugin": "9.0.0",
+    "@hs/webpack-dev-server-plugin": "10.0.0",
     "express-graphql": "^0.6.12",
     "graphql": "^14.0.2",
     "graphql-tools": "^4.0.1"
