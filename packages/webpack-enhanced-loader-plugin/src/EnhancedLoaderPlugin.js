@@ -1,8 +1,8 @@
 import LoaderDependency from 'webpack/lib/dependencies/LoaderDependency';
 import ContextDependency from 'webpack/lib/dependencies/ContextDependency';
+import LazySet from 'webpack/lib/util/LazySet';
 
 import { create } from './webpack-compat/context-dependency';
-import { buildInfo } from './webpack-compat/normal-module';
 
 class EnhancedLoaderContextDependency extends ContextDependency {
   get type() {
@@ -93,17 +93,28 @@ module.exports = class EnhancedLoaderPlugin {
 
                       if (depModule.error) return reject(depModule.error);
 
-                      const moduleBuildInfo = buildInfo(depModule);
+                      const fileDependencies = new LazySet();
+                      const contextDependencies = new LazySet();
+                      const missingDependencies = new LazySet();
+                      const buildDependencies = new LazySet();
+                      depModule.addCacheDependencies(
+                        fileDependencies,
+                        contextDependencies,
+                        missingDependencies,
+                        buildDependencies
+                      );
 
-                      if (moduleBuildInfo.fileDependencies) {
-                        moduleBuildInfo.fileDependencies.forEach(dep => {
-                          loaderContext.addDependency(dep);
-                        });
+                      for (const d of fileDependencies) {
+                        loaderContext.addDependency(d);
                       }
-                      if (moduleBuildInfo.contextDependencies) {
-                        moduleBuildInfo.contextDependencies.forEach(dep => {
-                          loaderContext.addContextDependency(dep);
-                        });
+                      for (const d of contextDependencies) {
+                        loaderContext.addContextDependency(d);
+                      }
+                      for (const d of missingDependencies) {
+                        loaderContext.addMissingDependency(d);
+                      }
+                      for (const d of buildDependencies) {
+                        loaderContext.addBuildDependency(d);
                       }
                       return resolve(depModule);
                     }
