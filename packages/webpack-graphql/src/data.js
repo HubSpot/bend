@@ -222,11 +222,16 @@ export function buildContext(compiler) {
     callback();
   });
 
-  compiler.hooks.emit.tap('webpack-graphql', compilation => {
-    assetsByCompilation.set(compilation, {
-      ...compilation.assets,
-    });
-  });
+  compiler.hooks.assetEmitted.tap(
+    'webpack-graphql',
+    (file, { compilation, source }) => {
+      const assetsForCompilation = assetsByCompilation.get(compilation) || {};
+      assetsByCompilation.set(compilation, {
+        ...assetsForCompilation,
+        [file]: source,
+      });
+    }
+  );
 
   return context;
 }
