@@ -1,6 +1,6 @@
 {
   "name": "@hs/webpack-dev-server-plugin",
-  "version": "9.0.0",
+  "version": "10.0.0",
   "license": "MIT",
   "homepage": "https://github.com/HubSpot/asset-bender/tree/master/packages/webpack-dev-server-plugin",
   "repository": "github:HubSpot/asset-bender",
