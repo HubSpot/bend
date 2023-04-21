@@ -1,4 +1,7 @@
 [ignore]
+# meow brings in a version of resolve which has intentionally malformed
+# package.json files that flow chokes on
+.*/resolve/test/.*
 
 [include]
 
