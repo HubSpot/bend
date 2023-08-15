@@ -2,6 +2,7 @@
 
 import type { ParseResult } from '@hs/sporks';
 import path from 'path';
+import Sources from 'webpack-sources';
 import { getOptions } from 'loader-utils';
 
 type WebpackModule = {
@@ -38,7 +39,6 @@ module.exports = function(source: string, sourceMap: any) {
   if (this._module.meta.source == null || !this._module.meta.directives) {
     throw new Error('missing sporks/preloader');
   }
-  const Sources = this.webpackVersionPlugin.webpackSources;
 
   const callback = this.async();
   this.cacheable();

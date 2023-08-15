@@ -10,7 +10,7 @@
   "main": "lib",
   "scripts": {
     "test": "jest",
-    "build": "babel src -d lib --root-mode upward",
+    "build": "babel src -d lib --root-mode upward --copy-files",
     "prepare": "yarn build --delete-dir-on-start"
   }
 }

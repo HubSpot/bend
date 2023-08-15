@@ -12,7 +12,7 @@ export default function getRuleComposer(
   ruleResolver: RuleResolver,
   ...args: Array<any>
 ) {
-  function composeRulesRec(rules: Rule): Array<ConcreteRule> {
+  return function composeRulesRec(rules: Rule): Array<ConcreteRule> {
     if (typeof rules === 'string') {
       return composeRulesRec(ruleResolver(rules));
     } else if (typeof rules === 'function') {
@@ -38,8 +38,4 @@ export default function getRuleComposer(
       )}`
     );
   }
-
-  return (rule: AbstractRule): Array<ConcreteRule> => {
-    return composeRulesRec(rule);
-  };
 }
