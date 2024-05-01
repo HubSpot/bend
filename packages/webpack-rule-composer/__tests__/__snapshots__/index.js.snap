@@ -1,52 +1,52 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`getRuleComposer recursively resolves mixed strings and functions 1`] = `
-Array [
-  Object {
+[
+  {
     "test": /i-show-up-twice/,
   },
-  Object {
+  {
     "test": /i-show-up-twice/,
   },
-  Object {
+  {
     "test": /look-no-further/,
   },
 ]
 `;
 
 exports[`getRuleComposer ruleComposer recursively resolves rule names to literal rules 1`] = `
-Array [
-  Object {
+[
+  {
     "test": /recursive-look-result/,
   },
-  Object {
+  {
     "test": /recursive-harder-result/,
   },
-  Object {
+  {
     "test": /look-no-further/,
   },
 ]
 `;
 
 exports[`getRuleComposer ruleComposer resolves string rule names to literal rules 1`] = `
-Array [
-  Object {
+[
+  {
     "test": /simple-string-result/,
   },
 ]
 `;
 
 exports[`getRuleComposer supports functions recursively 1`] = `
-Array [
-  Object {
+[
+  {
     "test": /recursive-function-result/,
   },
 ]
 `;
 
 exports[`getRuleComposer supports functions that return literal rules 1`] = `
-Array [
-  Object {
+[
+  {
     "test": /simple-function-result/,
   },
 ]
