@@ -88,19 +88,19 @@ const coreResolvers = {
     },
 
     errorCount(compilation) {
-      return compilation.errors.length;
+      return compilation.getErrors().length;
     },
 
     errors(compilation) {
-      return compilation.errors.map(unwrapError);
+      return compilation.getErrors().map(unwrapError);
     },
 
     warningCount(compilation) {
-      return compilation.warnings.length;
+      return compilation.getWarnings().length;
     },
 
     warnings(compilation) {
-      return compilation.warnings.map(unwrapError);
+      return compilation.getWarnings().map(unwrapError);
     },
   },
 
@@ -128,19 +128,21 @@ const coreResolvers = {
     },
 
     errorCount(module) {
-      return module.errors.length;
+      return module.getNumberOfErrors();
     },
 
     errors(module) {
-      return module.errors.map(unwrapError);
+      const errors = module.getErrors();
+      return errors ? errors.map(unwrapError) : [];
     },
 
     warningCount(module) {
-      return module.warnings.length;
+      return module.getNumberOfWarnings();
     },
 
     warnings(module) {
-      return module.warnings.map(unwrapError);
+      const warnings = module.getWarnings();
+      return warnings ? warnings.map(unwrapError) : [];
     },
 
     chunks(module) {
