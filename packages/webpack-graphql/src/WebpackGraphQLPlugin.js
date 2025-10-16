@@ -6,21 +6,18 @@ export default class WebpackGraphQLPlugin extends WebpackDevServerPlugin {
     this.opts = opts;
   }
 
-  setupMiddlewares(middlewares, devServer, compiler) {
+  before(app, server, compiler) {
     const { path, context, typeDefs, resolvers } = this.opts;
     const { buildContext, makeSchema } = require('./data');
     const graphqlHTTP = require('express-graphql');
 
-    middlewares.unshift({
-      name: 'webpack-graphql-plugin',
-      path: path,
-      middleware: graphqlHTTP({
+    app.use(
+      path,
+      graphqlHTTP({
         schema: makeSchema({ typeDefs, resolvers }),
         context: { ...buildContext(compiler), ...context },
         graphiql: true,
       })
-    });
-
-    return middlewares;
+    );
   }
 }

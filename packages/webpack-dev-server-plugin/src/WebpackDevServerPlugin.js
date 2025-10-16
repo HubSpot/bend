@@ -1,7 +1,7 @@
 /* @flow */
 
 export default class WebpackDevServerPlugin {
-  setupMiddlewares: (middlewares: any[], devServer: any, compiler: any) => any[];
+  before: (app: any, server: any, compiler: any) => void;
 
   apply(compiler: any) {
     if (!compiler.options.devServer) {
@@ -10,16 +10,14 @@ export default class WebpackDevServerPlugin {
       );
     }
 
-    const originalSetupMiddlewares = compiler.options.devServer.setupMiddlewares;
+    const originalOnListening = compiler.options.devServer.onListening;
 
-    compiler.options.devServer.setupMiddlewares = (middlewares, devServer) => {
-      // Call original setupMiddlewares if it existed
-      if (originalSetupMiddlewares) {
-        middlewares = originalSetupMiddlewares(middlewares, devServer);
+    compiler.options.devServer.onListening = (devServer) => {
+      if (originalOnListening) {
+        originalOnListening(devServer);
       }
 
-      // Call the plugin's setupMiddlewares method
-      return this.setupMiddlewares(middlewares, devServer, compiler);
+      this.before(devServer.app, devServer, compiler);
     };
   }
 }
