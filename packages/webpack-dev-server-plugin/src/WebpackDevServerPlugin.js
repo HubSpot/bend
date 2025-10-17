@@ -1,8 +1,8 @@
 /* @flow */
 
 export default class WebpackDevServerPlugin {
-  setupMiddlewares?: (middlewares: any, devServer: any, compiler: any) => any;
-  onListening?: (devServer: any, compiler: any) => void;
+  setupMiddlewares: (middlewares: any, devServer: any, compiler: any) => any;
+  onListening: (devServer: any, compiler: any) => void;
 
   apply(compiler: any) {
     if (!compiler.options.devServer) {
