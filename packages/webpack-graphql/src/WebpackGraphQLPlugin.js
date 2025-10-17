@@ -6,10 +6,11 @@ export default class WebpackGraphQLPlugin extends WebpackDevServerPlugin {
     this.opts = opts;
   }
 
-  before(app, server, compiler) {
+  setupMiddlewares(middlewares, devServer, compiler) {
     const { path, context, typeDefs, resolvers } = this.opts;
     const { buildContext, makeSchema } = require('./data');
     const graphqlHTTP = require('express-graphql');
+    const app = devServer.app;
 
     app.use(
       path,
@@ -19,5 +20,7 @@ export default class WebpackGraphQLPlugin extends WebpackDevServerPlugin {
         graphiql: true,
       })
     );
+
+    return middlewares;
   }
 }

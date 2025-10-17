@@ -1,7 +1,8 @@
 /* @flow */
 
 export default class WebpackDevServerPlugin {
-  before: (app: any, server: any, compiler: any) => void;
+  setupMiddlewares?: (middlewares: any, devServer: any, compiler: any) => any;
+  onListening?: (devServer: any, compiler: any) => void;
 
   apply(compiler: any) {
     if (!compiler.options.devServer) {
@@ -10,14 +11,28 @@ export default class WebpackDevServerPlugin {
       );
     }
 
-    const originalOnListening = compiler.options.devServer.onListening;
+    if (this.setupMiddlewares) {
+      const originalSetupMiddlewares = compiler.options.devServer.setupMiddlewares;
+      
+      compiler.options.devServer.setupMiddlewares = (middlewares, devServer) => {
+        if (originalSetupMiddlewares) {
+          middlewares = originalSetupMiddlewares(middlewares, devServer);
+        }
+        
+        return this.setupMiddlewares(middlewares, devServer, compiler);
+      };
+    }
 
-    compiler.options.devServer.onListening = (devServer) => {
-      if (originalOnListening) {
-        originalOnListening(devServer);
-      }
+    if (this.onListening) {
+      const originalOnListening = compiler.options.devServer.onListening;
+      
+      compiler.options.devServer.onListening = (devServer) => {
+        if (originalOnListening) {
+          originalOnListening(devServer);
+        }
 
-      this.before(devServer.app, devServer, compiler);
-    };
+        this.onListening(devServer, compiler);
+      };
+    }
   }
 }
